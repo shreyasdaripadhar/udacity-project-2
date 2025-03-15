@@ -1,0 +1,55 @@
+{
+	"info": {
+		"_postman_id": "a899e07e-a0bc-4d8c-b4da-be3004b8207d",
+		"name": "Location API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Location",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"person_id\": 155,\n    \"latitude\": \"35.911233\",\n    \"longitude\": \"14.495977\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{LOCATION_API}}/api/locations",
+					"host": [
+						"{{LOCATION_API}}"
+					],
+					"path": [
+						"api",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Location by Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LOCATION_API}}/api/locations/40",
+					"host": [
+						"{{LOCATION_API}}"
+					],
+					"path": [
+						"api",
+						"locations",
+						"40"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

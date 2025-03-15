@@ -1,0 +1,112 @@
+{
+  "swagger": "2.0",
+  "basePath": "/",
+  "paths": {
+    "/api/locations": {
+      "post": {
+        "responses": {
+          "202": {
+            "description": "Location creation accepted"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "description": "Issues the creation of a new Location",
+        "operationId": "post_location_list_resource",
+        "parameters": [
+          {
+            "name": "payload",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Location"
+            }
+          }
+        ],
+        "tags": [
+          "UdaConnect - Location API"
+        ]
+      }
+    },
+    "/api/locations/{location_id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Location found",
+            "schema": {
+              "$ref": "#/definitions/Location"
+            }
+          },
+          "404": {
+            "description": "Location not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "description": "Search for a given Location by its id",
+        "operationId": "get_location_resource",
+        "parameters": [
+          {
+            "in": "path",
+            "description": "Required location id",
+            "name": "location_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "UdaConnect - Location API"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "UdaConnect - Location API",
+    "version": "1.0.0"
+  },
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "tags": [
+    {
+      "name": "UdaConnect - Location API",
+      "description": "Provides location data"
+    }
+  ],
+  "definitions": {
+    "Location": {
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "person_id": {
+          "type": "integer"
+        },
+        "longitude": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "string"
+        },
+        "creation_time": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "responses": {
+    "ParseError": {
+      "description": "When a mask can't be parsed"
+    },
+    "MaskError": {
+      "description": "When any error occurs on mask"
+    }
+  }
+}

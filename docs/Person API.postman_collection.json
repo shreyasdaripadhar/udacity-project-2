@@ -1,0 +1,107 @@
+{
+	"info": {
+		"_postman_id": "7e4b5eee-c5e8-4d43-926b-7f5d1049be1a",
+		"name": "Person API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "List All Person",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{PERSON_API}}/api/persons",
+					"host": [
+						"{{PERSON_API}}"
+					],
+					"path": [
+						"api",
+						"persons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Person",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"company_name\": \"{{$randomUUID}}\",\n    \"last_name\": \"J 2\",\n    \"first_name\": \"Alice\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{PERSON_API}}/api/persons",
+					"host": [
+						"{{PERSON_API}}"
+					],
+					"path": [
+						"api",
+						"persons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Person By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{PERSON_API}}/api/persons/8",
+					"host": [
+						"{{PERSON_API}}"
+					],
+					"path": [
+						"api",
+						"persons",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Person Connection Data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{PERSON_API}}/api/persons/8/connection?start_date=2020-01-01&end_date=2020-12-30&distance=5",
+					"host": [
+						"{{PERSON_API}}"
+					],
+					"path": [
+						"api",
+						"persons",
+						"8",
+						"connection"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "2020-01-01"
+						},
+						{
+							"key": "end_date",
+							"value": "2020-12-30"
+						},
+						{
+							"key": "distance",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

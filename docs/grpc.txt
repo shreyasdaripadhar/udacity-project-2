@@ -1,0 +1,112 @@
+1. Generating Python gRPC Services
+
+From the module's proto folder, execute the following command:
+
+$ python -m grpc_tools.protoc -I./ --python_out=./ --grpc_python_out=./ connection-data.proto
+
+Stub and Servicer classes will be generated inside ./app/udaconnect/proto/ folder.
+
+* Generating the files might need some import path adjustments for the connection_data_pb2_grpc module to
+work properly.
+
+
+2. Udaconnect gRPC definitions
+
+Protobuf definitions are written in the file connection-data.proto inside module app.udaconnect.proto.
+
+This file defines the following messages, objects and service
+
+* SearchMessage - Defines the input for user connection data searches
+    - person_id     int64
+    - start_date    google.protobuf.Timestamp
+    - end_date      google.protobuf.Timestamp
+    - meters        float
+
+* ConnectionMessage - The information pair between person and location regarding the connection search result
+    - location      Location
+    - person        Person
+
+* ConnectionMessageList - Wrapper message tha holds an array(repeated ConnectionMessage) with the search results
+    - connections   repeated ConnectionMessage
+
+* Location - Object with definition for Location data
+    - id    int64
+    - person_id     int64
+    - longitude     string
+    - latitude      string
+    - creation_time google.protobuf.Timestamp
+    - wkt_shape     string
+
+* Person - Object with definition for Person data
+    - id            int64
+    - first_name    string
+    - last_name     string
+    - company_name  string
+* ConnectionDataService - Service endpoint responsible for receiving SearchMessages and responding with the
+correct ConncetionMessageList response.
+    - FindContacts(SearchMessage) -> ConnectionMessageList
+
+
+3. Sample Request
+
+Root file 'tester.py' is provided to help you testing the service. It is configured to execute request directly to
+the NodePort for this service, e.g, localhost:30003.
+
+Testing against any other target demands minimal adjustments and, to ease the process, just provide a env var with name
+GRPC_HOST:
+
+GRPC_HOST=xyz:8888 python tester.py ...
+
+This script requires 3 mandatory parameters(person id, start and end date). It also receives an optional value for
+distance:
+
+$ python tester.py PERSON_ID START_DATE END_DATE [DISTANCE]
+
+$ python tester.py 6 2020-01-01 2020-06-30
+or
+$ python tester.py 6 2020-01-01 2020-06-30 100
+
+This script outputs the SearchMessage used and the service response on console:
+
+-------------------------------------------------------------------------------
+Search Message: person_id: 6
+start_date {
+  seconds: 1577847600
+}
+end_date {
+  seconds: 1593486000
+}
+meters: 10.0
+
+Response: connections {
+  location {
+    id: 62
+    person_id: 8
+    creation_time {
+      seconds: 1578220626
+    }
+    wkt_shape: "ST_POINT(35.0585136 -106.5719521)"
+  }
+  person {
+    id: 8
+    first_name: "Paul"
+    last_name: "Badman"
+    company_name: "Paul Badman & Associates"
+  }
+}
+connections {
+  location {
+    id: 63
+    person_id: 5
+    creation_time {
+      seconds: 1578220626
+    }
+    wkt_shape: "ST_POINT(35.0585136 -106.5719521)"
+  }
+  person {
+    id: 5
+    first_name: "Taco"
+    last_name: "Fargo"
+    company_name: "Alpha Omega Upholstery"
+  }
+}

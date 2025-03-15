@@ -1,0 +1,204 @@
+{
+  "swagger": "2.0",
+  "basePath": "/",
+  "paths": {
+    "/api/persons": {
+      "post": {
+        "responses": {
+          "202": {
+            "description": "Person creation accepted"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "description": "Issues the creation of a new Location",
+        "operationId": "post_persons_resource",
+        "parameters": [
+          {
+            "name": "payload",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Person"
+            }
+          }
+        ],
+        "tags": [
+          "UdaConnect"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Listing successful",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Person"
+              }
+            }
+          }
+        },
+        "description": "List existing people",
+        "operationId": "get_persons_resource",
+        "tags": [
+          "UdaConnect"
+        ]
+      }
+    },
+    "/api/persons/{person_id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Person found",
+            "schema": {
+              "$ref": "#/definitions/Person"
+            }
+          },
+          "404": {
+            "description": "Person not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "description": "Search for a given Person by its id",
+        "operationId": "get_person_resource",
+        "parameters": [
+          {
+            "in": "path",
+            "description": "Required person id",
+            "name": "person_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "UdaConnect"
+        ]
+      }
+    },
+    "/api/persons/{person_id}/connection": {
+      "parameters": [
+        {
+          "in": "query",
+          "description": "Proximity to a given user in meters",
+          "name": "distance",
+          "type": "string"
+        },
+        {
+          "in": "query",
+          "description": "Upper bound of date range",
+          "name": "end_date",
+          "type": "string"
+        },
+        {
+          "in": "query",
+          "description": "Lower bound of date range",
+          "name": "start_date",
+          "type": "string"
+        },
+        {
+          "name": "person_id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Connection(s) found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Connection"
+              }
+            }
+          }
+        },
+        "description": "Search for connection data for a given person_id",
+        "operationId": "get_connection_data_resource",
+        "tags": [
+          "UdaConnect"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "UdaConnect - Person API",
+    "version": "1.0.0"
+  },
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "tags": [
+    {
+      "name": "UdaConnect",
+      "description": "Provides person data"
+    }
+  ],
+  "definitions": {
+    "Person": {
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "company_name": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Connection": {
+      "properties": {
+        "location": {
+          "$ref": "#/definitions/Location"
+        },
+        "person": {
+          "$ref": "#/definitions/Person"
+        }
+      },
+      "type": "object"
+    },
+    "Location": {
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "person_id": {
+          "type": "integer"
+        },
+        "longitude": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "string"
+        },
+        "creation_time": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "responses": {
+    "ParseError": {
+      "description": "When a mask can't be parsed"
+    },
+    "MaskError": {
+      "description": "When any error occurs on mask"
+    }
+  }
+}
