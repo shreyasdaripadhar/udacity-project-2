@@ -31,7 +31,7 @@ spec:
         service: udaconnect-connectiondata-api
     spec:
       containers:
-      - image: diogosilverio/nd064-udaconnect-connectiondata-api:latest
+      - image: shreyasdaripadhar/udaconnect-connectiondata-api:latest
         name: udaconnect-connectiondata-api
         imagePullPolicy: Always
         resources:
