@@ -1,8 +1,15 @@
-FROM python:3.9-alpine
-
+FROM python:3.9-slim
 WORKDIR .
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    libpq-dev \
+    libgeos-dev \
+    python3-dev \
+    libffi-dev \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apk add --no-cache gcc musl-dev linux-headers geos libc-dev postgresql-dev
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
